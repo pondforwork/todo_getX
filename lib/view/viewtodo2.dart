@@ -3,9 +3,16 @@ import 'package:get/get.dart';
 import 'package:project_todo_getx/controller/todocontroller.dart';
 import 'package:project_todo_getx/models/todo.dart';
 
-class ViewToDo2 extends StatelessWidget {
-  ViewToDo2({super.key});
-  final todocontroller = Get.put(ToDoController());
+class ViewToDo extends StatefulWidget {  final todocontroller = Get.put(ToDoController());
+
+  ViewToDo({super.key});
+
+  @override
+  State<ViewToDo> createState() => _ViewToDoState();
+}
+
+class _ViewToDoState extends State<ViewToDo> {
+    final todocontroller = Get.put(ToDoController());
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +67,12 @@ class ViewToDo2 extends StatelessWidget {
                             ),
                             value: controller.todo[index].isfinish,
                             onChanged: (bool? value) {
-                                
-                              // setState(() {
-                              //   todo.isfinish = !todo.isfinish;
-                              // });
+                                value = !value!;
+                                print(value);
+                              setState(() {
+                                controller.todo[index].isfinish = !controller.todo[index].isfinish;
+                                // todo.isfinish = !todo.isfinish;
+                              });
                               // setState(() {
                               //   addOrUpdateData(todo.id, todo.topic,
                               //       todo.isfinish, todo.color, todo.order);

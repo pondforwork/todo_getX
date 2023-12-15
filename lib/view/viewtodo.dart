@@ -51,7 +51,10 @@ class ViewToDo extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ToDo newtd =
-              ToDo("2222", "12345", false, Colors.black, DateTime.now());
+              ToDo("222112", "12345", false, Colors.black, DateTime.now());
+
+          todocontroller.addData(
+              newtd.id, newtd.topic, newtd.isfinish, newtd.color, newtd.order);
           todocontroller.addToDo(newtd);
         },
         child: Icon(Icons.add),

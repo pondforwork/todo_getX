@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_todo_getx/controller/todocontroller.dart';
 import 'package:project_todo_getx/models/todo.dart';
+import 'package:project_todo_getx/view/viewfinishtodo.dart';
 
 class ViewToDo extends StatefulWidget {
   final todocontroller = Get.put(ToDoController());
@@ -20,6 +21,17 @@ class _ViewToDoState extends State<ViewToDo> {
     return Scaffold(
       appBar: AppBar(
         title: Text("To Do"),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ViewFinishToDo()),
+              );
+            },
+            icon: Icon(Icons.archive),
+          ),
+        ],
       ),
       body: SafeArea(
           child: Column(
@@ -27,6 +39,7 @@ class _ViewToDoState extends State<ViewToDo> {
           Expanded(child: GetX<ToDoController>(
             builder: (controller) {
               return ListView.builder(
+              
                   itemCount: controller.todo.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
@@ -74,7 +87,8 @@ class _ViewToDoState extends State<ViewToDo> {
                                 setState(() {
                                   controller.todo[index].isfinish =
                                       !controller.todo[index].isfinish;
-                                  Future.delayed(const Duration(seconds: 3), () {
+                                  Future.delayed(const Duration(seconds: 3),
+                                      () {
                                     controller.addData(
                                         controller.todo[index].id,
                                         controller.todo[index].topic,

@@ -14,6 +14,7 @@ class ToDoController extends GetxController {
     initHive();
     fetchToDo();
     fetchFinishedToDo();
+    // clearData();
     super.onInit();
   }
 
@@ -21,10 +22,19 @@ class ToDoController extends GetxController {
     todo.add(newtodo);
   }
 
-  
+  Future<void> initHive() async {
+    final documentDirectory = await getApplicationDocumentsDirectory();
+    try {
+      await Hive.initFlutter(documentDirectory.path);
+      Hive.registerAdapter(ColorAdapter());
+      await Hive.openBox('data');
+      // await clearData();
+    } catch (error) {
+      print("Hive initialization error: $error");
+    }
+  }
 
   Future<void> fetchToDo() async {
-    
     try {
       final documentDirectory = await getApplicationDocumentsDirectory();
       await Hive.initFlutter(documentDirectory.path);
@@ -102,15 +112,23 @@ class ToDoController extends GetxController {
     fetchToDo();
   }
 
-  Future<void> initHive() async {
-    final documentDirectory = await getApplicationDocumentsDirectory();
-    try {
-      await Hive.initFlutter(documentDirectory.path);
-      Hive.registerAdapter(ColorAdapter());
-      await Hive.openBox('data');
-      // await clearData();
-    } catch (error) {
-      print("Hive initialization error: $error");
+  Future<void> deleteData(String id) async {
+    var data = Hive.box('data');
+    if (data.containsKey(id)) {
+      await data.delete(id);
+      fetchFinishedToDo();
+    } else {
+      print('Data with ID $id not found.');
     }
+  }
+
+  Future<void> clearData() async {
+    final documentDirectory = await getApplicationDocumentsDirectory();
+    await Hive.initFlutter(documentDirectory.path);
+    await Hive.openBox('data');
+    var data = Hive.box('data');
+    await data.clear();
+    fetchToDo(); // Refresh the list after clearing data
+    print("Clear Data SUccess");
   }
 }

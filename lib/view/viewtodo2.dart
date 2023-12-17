@@ -39,14 +39,9 @@ class _ViewToDoState extends State<ViewToDo> {
           Expanded(child: GetX<ToDoController>(
             builder: (controller) {
               return ListView.builder(
-              
                   itemCount: controller.todo.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: () {
-                        print("Tap");
-                        print(controller.todo[index].id);
-                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
@@ -58,8 +53,11 @@ class _ViewToDoState extends State<ViewToDo> {
                         ),
                         child: GestureDetector(
                           onLongPress: () {
-                            // print(todo.id);
-                            // _showDeleteDialog(todo.id);
+                            print(controller.finishedtodo[index].id);
+                            print(controller.finishedtodo[index].topic);
+                            print(controller.finishedtodo[index].isfinish);
+                            showDeleteConfirmationDialog(
+                                controller.todo[index].id);
                           },
                           child: ListTile(
                             shape: RoundedRectangleBorder(
@@ -95,6 +93,8 @@ class _ViewToDoState extends State<ViewToDo> {
                                         controller.todo[index].isfinish,
                                         controller.todo[index].color,
                                         controller.todo[index].order);
+                                        todocontroller.fetchFinishedToDo();
+                                       
                                   });
                                 });
 
@@ -132,15 +132,42 @@ class _ViewToDoState extends State<ViewToDo> {
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ToDo newtd = ToDo("222112fgdsdfgs", "12345adfsdfgs", false,
-              Colors.black, DateTime.now());
-
+          ToDo newtd = ToDo(
+              "Finished Test", "fsadsfadfsadfsTest Finished", false, Colors.black, DateTime.now());
           todocontroller.addData(
               newtd.id, newtd.topic, newtd.isfinish, newtd.color, newtd.order);
           todocontroller.addToDo(newtd);
         },
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  Future<void> showDeleteConfirmationDialog(String id) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Deletion'),
+          content: Text('Are you sure you want to delete this ToDo item?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Delete the data and close the dialog
+                todocontroller.deleteData(id);
+                Navigator.of(context).pop();
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

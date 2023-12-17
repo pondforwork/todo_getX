@@ -30,10 +30,6 @@ class _ViewFinishToDoState extends State<ViewFinishToDo> {
                   itemCount: controller.finishedtodo.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: () {
-                        print("Tap");
-                        print(controller.finishedtodo[index].id);
-                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
@@ -45,6 +41,11 @@ class _ViewFinishToDoState extends State<ViewFinishToDo> {
                         ),
                         child: GestureDetector(
                           onLongPress: () {
+                            print(controller.finishedtodo[index].id);
+                            print(controller.finishedtodo[index].topic);
+                            print(controller.finishedtodo[index].isfinish);
+                            showDeleteConfirmationDialog(
+                                controller.finishedtodo[index].id);
                             // print(todo.id);
                             // _showDeleteDialog(todo.id);
                           },
@@ -55,7 +56,6 @@ class _ViewFinishToDoState extends State<ViewFinishToDo> {
                             // tileColor: controller.todo[index].color,
                             tileColor: Colors.red,
 
-                            
                             title: Container(
                               width: 300,
                               height: 50,
@@ -78,7 +78,34 @@ class _ViewFinishToDoState extends State<ViewFinishToDo> {
           )),
         ],
       )),
-    
+    );
+  }
+
+  Future<void> showDeleteConfirmationDialog(String id) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Deletion'),
+          content: Text('Are you sure you want to delete this ToDo item?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Delete the data and close the dialog
+                todocontroller.deleteData(id);
+                Navigator.of(context).pop();
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

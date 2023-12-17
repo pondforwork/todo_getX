@@ -54,7 +54,7 @@ class _ViewFinishToDoState extends State<ViewFinishToDo> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             // tileColor: controller.todo[index].color,
-                            tileColor: Colors.red,
+                            tileColor: controller.finishedtodo[index].color,
 
                             title: Container(
                               width: 300,

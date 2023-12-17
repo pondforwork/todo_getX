@@ -20,6 +20,7 @@ class ToDoController extends GetxController {
 
   addToDo(ToDo newtodo) {
     todo.add(newtodo);
+    fetchToDo();
   }
 
   Future<void> initHive() async {

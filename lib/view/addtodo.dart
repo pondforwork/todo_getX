@@ -149,6 +149,7 @@ class _AddToDOState extends State<AddToDO> {
           todocontroller.addData(
               newtd.id, newtd.topic, newtd.isfinish, newtd.color, newtd.order);
           todocontroller.addToDo(newtd);
+          
           Navigator.pop(context);
           // await Navigator.pushReplacement(
           //   context,

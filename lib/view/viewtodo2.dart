@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_todo_getx/controller/todocontroller.dart';
 import 'package:project_todo_getx/models/todo.dart';
+import 'package:project_todo_getx/view/addtodo.dart';
 import 'package:project_todo_getx/view/viewfinishtodo.dart';
 
 class ViewToDo extends StatefulWidget {
@@ -64,7 +65,7 @@ class _ViewToDoState extends State<ViewToDo> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             // tileColor: controller.todo[index].color,
-                            tileColor: Colors.red,
+                            tileColor: controller.todo[index].color,
 
                             leading: Checkbox(
                               activeColor: Colors
@@ -94,6 +95,8 @@ class _ViewToDoState extends State<ViewToDo> {
                                         controller.todo[index].color,
                                         controller.todo[index].order);
                                         todocontroller.fetchToDo();
+                                        todocontroller.fetchFinishedToDo();
+                                        
                                        
                                   });
                                 });
@@ -132,11 +135,10 @@ class _ViewToDoState extends State<ViewToDo> {
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ToDo newtd = ToDo(
-              "Finished Test", "fsadsfadfsadfsTest Finished", false, Colors.black, DateTime.now());
-          todocontroller.addData(
-              newtd.id, newtd.topic, newtd.isfinish, newtd.color, newtd.order);
-          todocontroller.addToDo(newtd);
+         Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddToDO()),
+          );
         },
         child: const Icon(Icons.add),
       ),

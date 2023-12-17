@@ -53,9 +53,9 @@ class _ViewToDoState extends State<ViewToDo> {
                         ),
                         child: GestureDetector(
                           onLongPress: () {
-                            print(controller.finishedtodo[index].id);
-                            print(controller.finishedtodo[index].topic);
-                            print(controller.finishedtodo[index].isfinish);
+                            print(controller.todo[index].id);
+                            print(controller.todo[index].topic);
+                            print(controller.todo[index].isfinish);
                             showDeleteConfirmationDialog(
                                 controller.todo[index].id);
                           },
@@ -93,7 +93,7 @@ class _ViewToDoState extends State<ViewToDo> {
                                         controller.todo[index].isfinish,
                                         controller.todo[index].color,
                                         controller.todo[index].order);
-                                        todocontroller.fetchFinishedToDo();
+                                        todocontroller.fetchToDo();
                                        
                                   });
                                 });

@@ -117,6 +117,7 @@ class ToDoController extends GetxController {
     if (data.containsKey(id)) {
       await data.delete(id);
       fetchFinishedToDo();
+      fetchToDo();
     } else {
       print('Data with ID $id not found.');
     }

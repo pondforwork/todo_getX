@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_todo_getx/view/viewtodo.dart';
 import 'package:project_todo_getx/view/viewtodo2.dart';
 
 void main() {

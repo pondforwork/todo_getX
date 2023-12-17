@@ -127,10 +127,10 @@ class _AddToDOState extends State<AddToDO> {
                   ),
                   const SizedBox(width: 16),
                   CircleColorButton(
-                    color: Colors.yellow,
+                    color: Colors.brown,
                     isSelected: selectedColor == Colors.yellow,
                     onPressed: () {
-                      selectColor(Colors.yellow);
+                      selectColor(Colors.brown);
                       colorString = 'yellow';
                     },
                   ),

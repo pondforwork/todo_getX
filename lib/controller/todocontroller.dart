@@ -5,6 +5,8 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_todo_getx/models/todo.dart';
+import 'dart:io';
+import 'package:csv/csv.dart';
 
 class ToDoController extends GetxController {
   var todo = <ToDo>[].obs;
@@ -55,6 +57,7 @@ class ToDoController extends GetxController {
           ));
         }
       }
+      print(allData);
 
       // Sort the list by the "order" property
       allData.sort((a, b) => a.order.compareTo(b.order));
@@ -132,5 +135,29 @@ class ToDoController extends GetxController {
     await data.clear();
     fetchToDo(); // Refresh the list after clearing data
     print("Clear Data SUccess");
+  }
+
+  Future<void> exportToCSV() async {
+    try {
+      final documentDirectory = await getApplicationDocumentsDirectory();
+      final file = File('${documentDirectory.path}/todo_data.csv');
+      final sink = file.openWrite();
+
+      // Write headers to the CSV file
+      sink.write('ID,Topic,IsFinish,Color,Order\n');
+
+      // Write todo items to the CSV file
+      for (ToDo item in todo) {
+        sink.write(
+            '${item.id},"${item.topic}",${item.isfinish},"${item.color.value}",${item.order.toIso8601String()}\n');
+      }
+
+      await sink.flush();
+      await sink.close();
+
+      print('Data exported to CSV file: ${file.path}');
+    } catch (error) {
+      print('Error exporting data to CSV: $error');
+    }
   }
 }

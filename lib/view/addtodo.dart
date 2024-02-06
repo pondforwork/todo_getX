@@ -15,18 +15,18 @@ class AddToDO extends StatefulWidget {
 }
 
 class _AddToDOState extends State<AddToDO> {
-    final todocontroller = Get.put(ToDoController());
+  final todocontroller = Get.put(ToDoController());
 
   late int selectedColorIndex = 0; // Track the selected color index
-  
+
   late FocusNode _focusNode;
 
   // Hive.init(documentDirectory.path);
   @override
   void initState() {
     super.initState();
-       _focusNode = FocusNode();
-      _focusNode.requestFocus(); // Request focus here
+    _focusNode = FocusNode();
+    _focusNode.requestFocus(); // Request focus here
 
     // initHive();
     // selectedColorIndex = 0;
@@ -42,8 +42,6 @@ class _AddToDOState extends State<AddToDO> {
   //   var data = Hive.box('data');
   //   data.put(id, {'id': id, 'topic': topic, 'isfinish': isfinish});
   // }
-
-  
 
   Future<void> clearData() async {
     var data = Hive.box('data');
@@ -134,6 +132,12 @@ class _AddToDOState extends State<AddToDO> {
                       colorString = 'yellow';
                     },
                   ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await todocontroller.exportToCSV();
+                    },
+                    child: Text("Export to CSV"),
+                  ),
                 ],
               ),
             )
@@ -144,12 +148,12 @@ class _AddToDOState extends State<AddToDO> {
         onPressed: () async {
           String id = const Uuid().v4();
           String enteredText = topicController.text;
-          ToDo newtd = ToDo(
-             id, enteredText, false, selectedColor, DateTime.now());
+          ToDo newtd =
+              ToDo(id, enteredText, false, selectedColor, DateTime.now());
           todocontroller.addData(
               newtd.id, newtd.topic, newtd.isfinish, newtd.color, newtd.order);
           todocontroller.addToDo(newtd);
-          
+
           Navigator.pop(context);
           // await Navigator.pushReplacement(
           //   context,
